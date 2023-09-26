@@ -9,19 +9,19 @@ const Game = () => {
         dispatch(fetchDeckData());
     }
 
-    const gameStarted = useSelector((state) => state.game.started);
+    const game = useSelector((state) => state.game);
     const dispatch = useDispatch();
 
-    const element = gameStarted ? <div>Game Running</div> : <div>Game Not Running</div>;
+    const element = game.started ? <div>Game Running</div> : <div>Game Not Running</div>;
 
     const onClickHandler = () => {
-        gameStarted ?  dispatch(cancelGame()) : onStartGame();
+        game.started ?  dispatch(cancelGame()) : onStartGame();
     };
 
     return (
         <>
-            {element}
-            <button onClick={onClickHandler}>{gameStarted ? 'End' : 'Start'}</button>
+            {game.error ? <div>{game.error.message}</div> : element}
+            <button onClick={onClickHandler}>{game.started ? 'End' : 'Start'}</button>
         </>
     );
 }

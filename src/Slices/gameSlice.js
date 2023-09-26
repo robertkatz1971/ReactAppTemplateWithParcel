@@ -7,7 +7,7 @@ const initialState = {
     deck_id: null,
     remainingCards: 0,
     isLoading: false,
-    isError: false
+    error: null
 }
 
 export const fetchDeckData = createAsyncThunk("game/fetchDeckData", async () => {
@@ -23,7 +23,7 @@ export const gameSlice = createSlice({
             return {...state, started: true};
         },
         cancelGame: (state) => {
-            return {...state, started: false};
+            return {...state, ...initialState};
         },
         expandInstructions: (state) => {
             return {...state, instructionsExpanded: true};
@@ -34,14 +34,14 @@ export const gameSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchDeckData.pending, (state, action) => {
-         state.isLoading = true;
+            return {...state, isLoading: true, error: null}
         })
         builder.addCase(fetchDeckData.fulfilled, (state, action) => {
             const {remaining, deck_id} = action.payload;
-            return {...state, remainingCards: remaining, deck_id: deck_id, isLoading: false};
+            return {...state, remainingCards: remaining, deck_id: deck_id, isLoading: false, error: null};
         })
         builder.addCase(fetchDeckData.rejected, (state, action) => {
-         state.isError = true;
+            return {...state, isError: true, error: action.error }
         })
     }
 });
