@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { expandInstructions, collapseInstructions } from '../Slices/gameSlice';
+import { expandInstructions, collapseInstructions } from '../Slices/settingsSlice';
 
 const Instructions = () => {
 
-    const instructionsExpanded = useSelector((state) => state.game.instructionsExpanded);
-    const gameStarted = useSelector((state) => state.game.started);
+    const instructionsExpanded = useSelector((state) => state.settings.instructionsExpanded);
+    const gameStarted = useSelector((state) => state.settings.started);
     const dispatch = useDispatch();
 
     if (gameStarted) return null;

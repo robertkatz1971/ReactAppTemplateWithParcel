@@ -2,34 +2,23 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    started: false,
-    instructionsExpanded: false,
     deck_id: null,
     remainingCards: 0,
     isLoading: false,
     error: null
 }
 
-export const fetchDeckData = createAsyncThunk("game/fetchDeckData", async () => {
+export const fetchDeckData = createAsyncThunk("deck/fetchDeckData", async () => {
     const response = await axios.get('https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
     return response.data;
  });
 
-export const gameSlice = createSlice({
-    name: 'game',
+export const deckSlice = createSlice({
+    name: 'deck',
     initialState,
     reducers: {
-        startGame: (state) => {
-            return {...state, started: true};
-        },
-        cancelGame: (state) => {
+        reset: (state) => {
             return {...state, ...initialState};
-        },
-        expandInstructions: (state) => {
-            return {...state, instructionsExpanded: true};
-        },
-        collapseInstructions: (state) => {
-            return {...state, instructionsExpanded: false};
         }
     },
     extraReducers: (builder) => {
@@ -46,10 +35,6 @@ export const gameSlice = createSlice({
     }
 });
 
-export const {  startGame, 
-                cancelGame, 
-                expandInstructions, 
-                collapseInstructions, 
-                } = gameSlice.actions;
+export const { reset } = deckSlice.actions;
 
-export default gameSlice.reducer;
+export default deckSlice.reducer;

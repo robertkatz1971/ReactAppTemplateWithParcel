@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { startGame, cancelGame, fetchDeckData } from '../Slices/gameSlice';
+import { startGame, cancelGame } from '../Slices/settingsSlice';
+import { fetchDeckData, reset } from "../Slices/deckSlice";
 
 const Game = () => {
 
@@ -9,19 +10,25 @@ const Game = () => {
         dispatch(fetchDeckData());
     }
 
-    const game = useSelector((state) => state.game);
+    const onEndGame = () => {
+        dispatch(cancelGame());
+        dispatch(reset());
+    }
+
+    const deck = useSelector((state) => state.deck);
+    const settings = useSelector((state) => state.settings);
     const dispatch = useDispatch();
 
-    const element = game.started ? <div>Game Running</div> : <div>Game Not Running</div>;
+    const element = settings.started ? <div>Game Running</div> : <div>Game Not Running</div>;
 
     const onClickHandler = () => {
-        game.started ?  dispatch(cancelGame()) : onStartGame();
+        settings.started ?  onEndGame() : onStartGame();
     };
 
     return (
         <>
-            {game.error ? <div>{game.error.message}</div> : element}
-            <button onClick={onClickHandler}>{game.started ? 'End' : 'Start'}</button>
+            {deck.error ? <div>Please try reloading the application and error occurred ({deck.error.message}).</div> : element}
+            <button onClick={onClickHandler}>{settings.started ? 'End' : 'Start'}</button>
         </>
     );
 }
