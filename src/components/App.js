@@ -1,6 +1,7 @@
 import React from 'react';
 import Instructions from './Instructions';
 import Game from './Game';
+import DrawCard from './DrawCard';
 
 const App = () => {
 
@@ -8,6 +9,7 @@ const App = () => {
         <div>
             <h2>♠ ♣ Evens or Odds ♦ ♥</h2>
             <Game />
+            <DrawCard />
             <Instructions /> 
         </div>
     );

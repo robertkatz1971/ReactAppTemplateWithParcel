@@ -16,6 +16,7 @@ const store = configureStore({
 });
 
 store.subscribe(() => {
+    console.clear();
     console.log('store.getState', store.getState());
 });
 
